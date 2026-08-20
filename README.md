@@ -40,23 +40,28 @@ A minimal, full-stack playlist manager: create playlists, add songs, filter by g
 
 ---
 
-## Project Structure
 music-playlist-manager/
-├── api/ # Flask backend
-│ ├── index.py # App factory, entrypoint
-│ ├── extensions.py # db, bcrypt instances
-│ ├── models.py # User, Playlist, Song
-│ ├── routes/ # auth, playlists, songs, ai — one blueprint per feature
-│ └── utils/ # JWT helpers, global error handlers
+├── api/                        # ONLY for Vercel Serverless Entry
+│   └── index.py                # Imports your Flask app from 'backend' and runs it
 │
-├── src/ # React frontend
-│ ├── pages/ # Login, Signup, Dashboard, PlaylistView
-│ ├── components/ # SongForm, SongCard, PlaylistCard, AIDescriptionBox, ErrorBoundary
-│ ├── context/ # AuthContext (login/logout/session state)
-│ └── api/ # fetch client with JWT attached
+├── backend/                    # All Flask logic lives safely here
+│   ├── __init__.py             # App factory (create_app)
+│   ├── extensions.py           # db, bcrypt instances
+│   ├── models.py               # User, Playlist, Song
+│   ├── routes/                 # auth, playlists, songs, ai
+│   └── utils/                  # JWT helpers
 │
-└── vercel.json # routes /api/* to Flask, rest to the React build
-
+├── src/                        # React Frontend Code
+│   ├── main.jsx / index.js     # React entry point
+│   ├── pages/                  
+│   ├── components/             
+│   ├── context/                
+│   └── api/                    # fetch/axios client
+│
+├── vercel.json                 # Critical routing rules (see below)
+├── requirements.txt            # Required for Vercel Python build (Flask, PyJWT, etc.)
+├── package.json                # Required for Vercel React build
+└── vite.config.js              # (Assuming Vite) Frontend build config
 
 ---
 
