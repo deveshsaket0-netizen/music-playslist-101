@@ -54,61 +54,71 @@ export default function PlaylistView() {
     setPlaylist({ ...playlist, ai_description: updatedPlaylist.ai_description });
   }
 
-  if (error) return <p className="p-8 text-red-500">{error}</p>;
-  if (!playlist) return <p className="p-8 text-gray-500">Loading...</p>;
+  if (error) return <p className="min-h-screen bg-paper p-8 text-rust text-sm">{error}</p>;
+  if (!playlist) return <p className="min-h-screen bg-paper p-8 text-muted text-sm">Loading…</p>;
 
   const filteredSongs = playlist.songs.filter(
     (s) => genreFilter === "All" || s.genre === genreFilter
   );
 
   return (
-    <div className="p-8 max-w-2xl mx-auto">
-      <Link to="/dashboard" className="text-blue-600 text-sm">← Back</Link>
-      <h1 className="text-2xl font-bold mt-2 mb-4">{playlist.name}</h1>
+    <div className="min-h-screen bg-paper">
+      <div className="max-w-2xl mx-auto px-6 py-10">
+        <Link to="/dashboard" className="text-xs text-muted hover:text-ink">
+          &larr; Back
+        </Link>
+        <h1 className="font-serif text-3xl text-ink tracking-tight mt-3 mb-6">{playlist.name}</h1>
 
-      <AIDescriptionBox playlist={playlist} onUpdate={handleDescriptionUpdate} />
+        <AIDescriptionBox playlist={playlist} onUpdate={handleDescriptionUpdate} />
 
-      <select
-        value={genreFilter}
-        onChange={(e) => setGenreFilter(e.target.value)}
-        className="border rounded px-3 py-2 mb-4"
-      >
-        {GENRES.map((g) => (
-          <option key={g} value={g}>{g}</option>
-        ))}
-      </select>
+        <div className="flex justify-between items-center mt-8 mb-4">
+          <select
+            value={genreFilter}
+            onChange={(e) => setGenreFilter(e.target.value)}
+            className="border border-line bg-transparent px-2 py-1.5 text-sm text-ink focus:outline-none focus:border-rust"
+          >
+            {GENRES.map((g) => (
+              <option key={g} value={g}>{g}</option>
+            ))}
+          </select>
 
-      {editingSong ? (
-        <SongForm
-          initialData={editingSong}
-          onSubmit={handleEditSong}
-          onCancel={() => setEditingSong(null)}
-        />
-      ) : showAddForm ? (
-        <SongForm onSubmit={handleAddSong} onCancel={() => setShowAddForm(false)} initialData={null} />
-      ) : (
-        <button
-          onClick={() => setShowAddForm(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded mb-4"
-        >
-          + Add Song
-        </button>
-      )}
-
-      {filteredSongs.length === 0 ? (
-        <p className="text-gray-500">No songs match this filter.</p>
-      ) : (
-        <div className="space-y-2">
-          {filteredSongs.map((song) => (
-            <SongCard
-              key={song.id}
-              song={song}
-              onEdit={setEditingSong}
-              onDelete={handleDeleteSong}
-            />
-          ))}
+          {!showAddForm && !editingSong && (
+            <button
+              onClick={() => setShowAddForm(true)}
+              className="text-sm text-ink border border-line px-4 py-1.5 hover:border-rust hover:text-rust transition-colors"
+            >
+              + Add song
+            </button>
+          )}
         </div>
-      )}
+
+        {editingSong && (
+          <SongForm
+            initialData={editingSong}
+            onSubmit={handleEditSong}
+            onCancel={() => setEditingSong(null)}
+          />
+        )}
+        {showAddForm && !editingSong && (
+          <SongForm onSubmit={handleAddSong} onCancel={() => setShowAddForm(false)} initialData={null} />
+        )}
+
+        {filteredSongs.length === 0 ? (
+          <p className="text-muted text-sm mt-4">No songs match this filter.</p>
+        ) : (
+          <div className="border-t border-line mt-2">
+            {filteredSongs.map((song, i) => (
+              <SongCard
+                key={song.id}
+                song={song}
+                index={i + 1}
+                onEdit={setEditingSong}
+                onDelete={handleDeleteSong}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

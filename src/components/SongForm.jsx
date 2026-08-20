@@ -36,35 +36,43 @@ export default function SongForm({ onSubmit, initialData, onCancel }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="border rounded-lg p-4 bg-white mb-4 space-y-3">
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+    <form onSubmit={handleSubmit} className="border border-line p-4 mb-4 space-y-3">
+      {error && <p className="text-rust text-sm">{error}</p>}
       <input
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Song title"
-        className="w-full border rounded px-3 py-2"
+        className="w-full border border-line bg-transparent px-3 py-2 text-sm text-ink focus:outline-none focus:border-rust"
       />
       <input
         value={artist}
         onChange={(e) => setArtist(e.target.value)}
         placeholder="Artist"
-        className="w-full border rounded px-3 py-2"
+        className="w-full border border-line bg-transparent px-3 py-2 text-sm text-ink focus:outline-none focus:border-rust"
       />
       <select
         value={genre}
         onChange={(e) => setGenre(e.target.value)}
-        className="w-full border rounded px-3 py-2"
+        className="w-full border border-line bg-transparent px-3 py-2 text-sm text-ink focus:outline-none focus:border-rust"
       >
         {GENRES.map((g) => (
           <option key={g} value={g}>{g}</option>
         ))}
       </select>
-      <div className="flex gap-2">
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-          {initialData ? "Save" : "Add Song"}
+      <div className="flex gap-3 pt-1">
+        <button
+          type="submit"
+          className="bg-ink text-paper px-4 py-2 text-sm tracking-wide hover:bg-rust transition-colors"
+        >
+          {initialData ? "Save" : "Add song"}
         </button>
         {initialData && (
-          <button type="button" onClick={onCancel} className="text-gray-500 px-4 py-2">
+          <button type="button" onClick={onCancel} className="text-sm text-muted hover:text-ink px-2">
+            Cancel
+          </button>
+        )}
+        {!initialData && (
+          <button type="button" onClick={onCancel} className="text-sm text-muted hover:text-ink px-2">
             Cancel
           </button>
         )}
