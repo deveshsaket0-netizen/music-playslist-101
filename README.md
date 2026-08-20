@@ -2,7 +2,7 @@
 
 A minimal, full-stack playlist manager: create playlists, add songs, filter by genre, and generate an AI-written description for each playlist.
 
-**Live demo:** _add your Vercel URL here_
+**Live demo:** (https://music-playslist-101-git-main-deveshsaket0-5967s-projects.vercel.app/)
 
 ---
 
