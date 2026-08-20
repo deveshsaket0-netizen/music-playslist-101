@@ -40,28 +40,36 @@ A minimal, full-stack playlist manager: create playlists, add songs, filter by g
 
 ---
 
+## Project Structure
+
+```
 music-playlist-manager/
-├── api/                        # ONLY for Vercel Serverless Entry
-│   └── index.py                # Imports your Flask app from 'backend' and runs it
+├── api/                    # Flask backend (Vercel serverless entry)
+│   ├── index.py             # App factory, entrypoint
+│   ├── extensions.py        # db, bcrypt instances
+│   ├── models.py            # User, Playlist, Song
+│   ├── requirements.txt     # Python dependencies
+│   ├── routes/               # auth.py, playlists.py, songs.py, ai.py — one blueprint per feature
+│   └── utils/                 # jwt_helpers.py, error_handlers.py
 │
-├── backend/                    # All Flask logic lives safely here
-│   ├── __init__.py             # App factory (create_app)
-│   ├── extensions.py           # db, bcrypt instances
-│   ├── models.py               # User, Playlist, Song
-│   ├── routes/                 # auth, playlists, songs, ai
-│   └── utils/                  # JWT helpers
+├── src/                    # React frontend
+│   ├── main.jsx
+│   ├── App.jsx
+│   ├── pages/                # Login, Signup, Dashboard, PlaylistView
+│   ├── components/            # SongForm, SongCard, PlaylistCard, AIDescriptionBox, ErrorBoundary
+│   ├── context/                 # AuthContext (login/logout/session state)
+│   ├── api/                      # client.js — fetch wrapper with JWT attached
+│   └── index.css                  # Tailwind directives
 │
-├── src/                        # React Frontend Code
-│   ├── main.jsx / index.js     # React entry point
-│   ├── pages/                  
-│   ├── components/             
-│   ├── context/                
-│   └── api/                    # fetch/axios client
-│
-├── vercel.json                 # Critical routing rules (see below)
-├── requirements.txt            # Required for Vercel Python build (Flask, PyJWT, etc.)
-├── package.json                # Required for Vercel React build
-└── vite.config.js              # (Assuming Vite) Frontend build config
+├── .env                     # local secrets (gitignored)
+├── .env.example              # documents required env vars
+├── .gitignore
+├── vercel.json                 # routes /api/* to Flask, rest to the React build
+├── package.json
+├── vite.config.js
+├── tailwind.config.js
+└── postcss.config.js
+```
 
 ---
 
